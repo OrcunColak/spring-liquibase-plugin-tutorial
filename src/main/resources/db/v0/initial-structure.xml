@@ -2,7 +2,13 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-    <changeSet author="leo" id="create-table-samples">
+
+    <changeSet author="Orçun Çolak" id="create-table-samples">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="samples"/>
+            </not>
+        </preConditions>
         <createTable tableName="samples">
             <column name="id" type="UUID" defaultOnNull="true" defaultValue="gen_random_uuid()">
                 <constraints primaryKey="true" primaryKeyName="sample_pkey"/>
@@ -11,4 +17,14 @@
             <column name="status" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
+
+    <changeSet author="Orçun Çolak" id="create-sequence-hibernate_sequence">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <sequenceExists sequenceName="hibernate_sequence"/>
+            </not>
+        </preConditions>
+        <createSequence sequenceName="hibernate_sequence"/>
+    </changeSet>
+
 </databaseChangeLog>

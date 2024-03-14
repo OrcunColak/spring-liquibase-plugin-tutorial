@@ -8,6 +8,10 @@ This project does not autoconfigure liquibase. We need to run the plugin manuall
 To populate the database run
 
 ```
+# Creates databasechangelog and databasechangeloglock tables
+mvn compile
+
+# Creates my tables
 mvn liquibase:update
 ```
 
