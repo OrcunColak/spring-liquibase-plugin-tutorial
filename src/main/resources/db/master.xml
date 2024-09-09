@@ -4,5 +4,6 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
     <include file="v0/initial-structure.xml" relativeToChangelogFile="true" context="schema"/>
+    <include file="v0/oracle-postgres-initial-structure.xml" relativeToChangelogFile="true" context="schema"/>
     <include file="v0/initial-data.xml" relativeToChangelogFile="true" context="data"/>
 </databaseChangeLog>

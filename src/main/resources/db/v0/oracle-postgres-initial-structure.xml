@@ -1,0 +1,50 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <!--
+    See https://blog.octalabs.com/oracle-to-postgresql-migration-utilizing-liquibase-strategies-ce927bffa5b9
+    In this example, we establish a BLOB type for both Oracle and PostgreSQL, ensuring compatibility across both platforms.
+    Also pay attention, that unlike BLOB Liquibase supportsBOOLEAN which translates to NUMBER(1) in Oracle and BOOLEAN in PostgreSQL.
+     -->
+    <property name="BLOB_TYPE" value="BYTEA" dbms="postgresql"/>
+    <property name="BLOB_TYPE" value="BLOB" dbms="oracle"/>
+    <changeSet author="Orçun Çolak" id="create test_table">
+        <createTable tableName="test_table">
+            <column name="id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="test_blob" type="${BLOB_TYPE}"/>
+            <column name="toggle" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Orçun Çolak" id="custom sysdate function" dbms="postgresql">
+        <sql>
+            <![CDATA[
+        CREATE OR REPLACE FUNCTION custom_sysdate()
+            RETURNS timestamp AS
+        $$
+        BEGIN
+            RETURN CURRENT_TIMESTAMP;
+        END;
+        $$
+            LANGUAGE plpgsql;
+        ]]>
+        </sql>
+    </changeSet>
+    <changeSet author="Orçun Çolak" id="custom sysdate function" dbms="oracle">
+        <sql>
+            <![CDATA[
+        CREATE OR REPLACE FUNCTION custom_sysdate
+            RETURN TIMESTAMP
+        AS
+        BEGIN
+            RETURN SYSDATE;
+        END;
+        ]]>
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
